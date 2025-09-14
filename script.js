@@ -4,16 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const rememberMeCheckbox = document.getElementById('rememberMe');
     const generateButton = document.getElementById('generate');
     const prophecyDiv = document.getElementById('prophecy');
+    const hideProphecyCheckbox = document.getElementById('hideProphecy');
 
     // Load saved data from localStorage
     const savedFirstName = localStorage.getItem('firstName');
     const savedBirthday = localStorage.getItem('birthday');
+    const savedHideProphecy = localStorage.getItem('hideProphecy');
 
     if (savedFirstName) {
         firstNameInput.value = savedFirstName;
     }
     if (savedBirthday) {
         birthdayInput.value = savedBirthday;
+    }
+    if (savedHideProphecy) {
+        hideProphecyCheckbox.checked = true;
     }
 
     generateButton.addEventListener('click', async () => {
@@ -29,14 +34,26 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('birthday');
         }
 
+        if (hideProphecyCheckbox.checked) {
+            localStorage.setItem('hideProphecy', 'true');
+        } else {
+            localStorage.removeItem('hideProphecy');
+        }
+
         const hash = await generateHash(firstName, birthday, today);
         const colorCode = hash.substring(0, 6);
         const prophecyCode = hash.substring(0, 3);
 
         document.body.style.backgroundColor = `#${colorCode}`;
 
-        const prophecy = await fetchProphecy(prophecyCode);
-        prophecyDiv.innerHTML = `<p>${prophecy}</p>`;
+        if (!hideProphecyCheckbox.checked) {
+            document.getElementById('prophecy').style.display = 'block';
+            const prophecy = await fetchProphecy(prophecyCode);
+            prophecyDiv.innerHTML = `<p>${prophecy}</p>`;
+        } else {
+            document.getElementById('prophecy').style.display = 'none';
+        }
+        
     });
 
     async function generateHash(firstName, birthday, today) {
@@ -49,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchProphecy(code) {
-        const response = await fetch(`www.my-color.today/prophecy/${code}`);
+        const response = await fetch(`/prophecy/${code}`);
         const prophecyText = await response.text();
         return prophecyText;
     }
