@@ -41,5 +41,10 @@
         <a href="https://github.com/Best-HeyGman/my-color-today" target="_blank">source code</a>
     </footer>
     <script src="script.js"></script>
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('sw.js')
+        }
+    </script>
 </body>
 </html>
