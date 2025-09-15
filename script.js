@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const prophecyCode = hash.substring(0, 3);
 
         document.body.style.backgroundColor = `#${colorCode}`;
+        updateTextColor(colorCode);
 
         if (!hideProphecyCheckbox.checked) {
             document.getElementById('prophecy').style.display = 'block';
@@ -53,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             document.getElementById('prophecy').style.display = 'none';
         }
-        
     });
 
     async function generateHash(firstName, birthday, today) {
@@ -69,5 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch(`/prophecy/${code}`);
         const prophecyText = await response.text();
         return prophecyText;
+    }
+
+    function updateTextColor(colorCode) {
+        const r = parseInt(colorCode.substring(0, 2), 16);
+        const g = parseInt(colorCode.substring(2, 4), 16);
+        const b = parseInt(colorCode.substring(4, 6), 16);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        const textColor = brightness > 128 ? 'black' : 'white';
+
+        document.getElementById('inputContainer').style.color = textColor;
+        document.querySelector('footer').style.color = textColor;
     }
 });
