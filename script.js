@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const firstNameInput = document.getElementById('firstName');
     const birthdayInput = document.getElementById('birthday');
-    const rememberMeCheckbox = document.getElementById('rememberMe');
     const generateButton = document.getElementById('generate');
     const prophecyDiv = document.getElementById('prophecy');
     const hideProphecyCheckbox = document.getElementById('hideProphecy');
@@ -26,13 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const birthday = birthdayInput.value;
         const today = new Date().toLocaleDateString();
 
-        if (rememberMeCheckbox.checked) {
-            localStorage.setItem('firstName', firstName);
-            localStorage.setItem('birthday', birthday);
-        } else {
-            localStorage.removeItem('firstName');
-            localStorage.removeItem('birthday');
-        }
+        localStorage.setItem('firstName', firstName);
+        localStorage.setItem('birthday', birthday);
 
         if (hideProphecyCheckbox.checked) {
             localStorage.setItem('hideProphecy', 'true');
