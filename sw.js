@@ -1,6 +1,9 @@
 // Define the name of the cache.
 const CACHE_NAME = 'my-pwa-cache-v1';
 
+// Define the maximum number of items to cache
+const MAX_ITEMS = 50;
+
 // The install event
 self.addEventListener('install', event => {
   console.log('Service Worker installing.');
@@ -14,11 +17,22 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.filter(cache => cache !== CACHE_NAME)
-                  .map(cache => caches.delete(cache))
+          .map(cache => caches.delete(cache))
       );
     })
   );
 });
+
+// Function to limit the number of cached items
+async function limitCacheSize(cacheName, maxItems) {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  if (keys.length > maxItems) {
+    const itemsToDelete = keys.length - maxItems;
+    const deletePromises = keys.slice(0, itemsToDelete).map(key => cache.delete(key));
+    await Promise.all(deletePromises);
+  }
+}
 
 // The fetch event - network-first strategy with caching
 self.addEventListener('fetch', event => {
@@ -34,26 +48,21 @@ self.addEventListener('fetch', event => {
               const responseClone = response.clone();
               caches.open(CACHE_NAME).then(cache => {
                 cache.put(event.request, responseClone);
+                limitCacheSize(CACHE_NAME, MAX_ITEMS); // Limit the cache size
               });
             }
             return response;
           })
-          .catch(() => {
+          .catch(async () => {
             // If network fails, try to serve the exact request from cache
-            return caches.match(event.request).then(response => {
-              if (response) return response;
-
-              // If the exact request isn't in the cache, try to serve index.html
-              return caches.match('/index.html').then(indexResponse => {
-                if (indexResponse) return indexResponse;
-
-                // If nothing is found in cache, return a basic offline page
-                return new Response(
-                  '<!DOCTYPE html><html><body><h1>Offline</h1><p>This app requires an internet connection to load initially.</p></body></html>',
-                  { headers: { 'Content-Type': 'text/html' } }
-                );
-              });
-            });
+            const response = await caches.match(event.request);
+            if (response) return response;
+            const indexResponse = await caches.match('/index.html');
+            if (indexResponse) return indexResponse;
+            return new Response(
+              '<!DOCTYPE html><html><body><h1>Offline</h1><p>This app requires an internet connection to load initially.</p></body></html>',
+              { headers: { 'Content-Type': 'text/html' } }
+            );
           })
       );
     } else {
@@ -65,6 +74,7 @@ self.addEventListener('fetch', event => {
               const responseClone = response.clone();
               caches.open(CACHE_NAME).then(cache => {
                 cache.put(event.request, responseClone);
+                limitCacheSize(CACHE_NAME, MAX_ITEMS); // Limit the cache size
               });
             }
             return response;
