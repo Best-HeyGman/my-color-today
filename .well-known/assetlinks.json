@@ -1,0 +1,11 @@
+[{
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "android_app",
+   "package_name": "today.my_color.www.twa",
+   "sha256_cert_fingerprints": [
+     "2A:24:E1:F5:05:E0:A1:B5:8F:DE:3A:E9:46:7E:CB:56:C2:CA:71:D8:DD:75:0B:5D:9E:AA:1C:23:33:DD:BE:1C",
+     "BB:70:1E:82:F3:85:91:AD:40:4F:E0:68:8C:F0:00:99:D4:44:AB:57:5F:0C:6F:1E:4C:07:B8:BF:EC:BC:45:7B"
+   ]
+ }
+}]
