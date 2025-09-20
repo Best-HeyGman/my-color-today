@@ -2,22 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstNameInput = document.getElementById('firstName');
     const birthdayInput = document.getElementById('birthday');
     const generateButton = document.getElementById('generate');
-    const prophecyDiv = document.getElementById('prophecy');
-    const hideProphecyCheckbox = document.getElementById('hideProphecy');
 
     // Load saved data from localStorage
     const savedFirstName = localStorage.getItem('firstName');
     const savedBirthday = localStorage.getItem('birthday');
-    const savedHideProphecy = localStorage.getItem('hideProphecy');
 
     if (savedFirstName) {
         firstNameInput.value = savedFirstName;
     }
     if (savedBirthday) {
         birthdayInput.value = savedBirthday;
-    }
-    if (savedHideProphecy) {
-        hideProphecyCheckbox.checked = true;
     }
 
     generateButton.addEventListener('click', async () => {
@@ -28,26 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('firstName', firstName);
         localStorage.setItem('birthday', birthday);
 
-        if (hideProphecyCheckbox.checked) {
-            localStorage.setItem('hideProphecy', 'true');
-        } else {
-            localStorage.removeItem('hideProphecy');
-        }
-
         const hash = await generateHash(firstName, birthday, today);
         const colorCode = hash.substring(0, 6);
-        const prophecyCode = hash.substring(0, 3);
 
         document.body.style.backgroundColor = `#${colorCode}`;
         updateTextColor(colorCode);
-
-        if (!hideProphecyCheckbox.checked) {
-            document.getElementById('prophecy').style.display = 'block';
-            const prophecy = await fetchProphecy(prophecyCode);
-            prophecyDiv.innerHTML = `<p>${prophecy}</p>`;
-        } else {
-            document.getElementById('prophecy').style.display = 'none';
-        }
     });
 
     async function generateHash(firstName, birthday, today) {
@@ -57,12 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         return hashHex;
-    }
-
-    async function fetchProphecy(code) {
-        const response = await fetch(`/prophecy/${code}`);
-        const prophecyText = await response.text();
-        return prophecyText;
     }
 
     function updateTextColor(colorCode) {
