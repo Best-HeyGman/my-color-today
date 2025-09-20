@@ -2,10 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstNameInput = document.getElementById('firstName');
     const birthdayInput = document.getElementById('birthday');
     const generateButton = document.getElementById('generate');
+    const anotherDayCheckbox = document.getElementById('anotherDayCheckbox');
+    const anotherDayInput = document.getElementById('anotherDay');
+    const anotherDayContainer = document.getElementById('anotherDayContainer');
 
     // Load saved data from localStorage
     const savedFirstName = localStorage.getItem('firstName');
     const savedBirthday = localStorage.getItem('birthday');
+
+    anotherDayCheckbox.checked = false;
 
     if (savedFirstName) {
         firstNameInput.value = savedFirstName;
@@ -14,10 +19,23 @@ document.addEventListener('DOMContentLoaded', () => {
         birthdayInput.value = savedBirthday;
     }
 
+    anotherDayCheckbox.addEventListener('change', async () => {
+        if (anotherDayCheckbox.checked) {
+            anotherDayContainer.style.display = 'inline-block';
+        } else {
+            anotherDayContainer.style.display = 'none';
+        }
+    });
+
     generateButton.addEventListener('click', async () => {
         const firstName = firstNameInput.value;
         const birthday = birthdayInput.value;
-        const today = new Date().toLocaleDateString();
+        let today;
+        if (anotherDayCheckbox.checked) {
+            today = anotherDayInput.value;
+        } else {
+            today = new Date().toISOString().substring(0, 10);
+        }
 
         localStorage.setItem('firstName', firstName);
         localStorage.setItem('birthday', birthday);

@@ -65,16 +65,6 @@ button:active {
     background-color: #0056b3;
 }
 
-#prophecy {
-    margin-top: 1rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    text-align: left;
-    display: none;
-}
-
 footer {
     margin-top: 2rem;
     text-align: center;
@@ -99,8 +89,12 @@ footer {
     background-color: #218838;
 }
 
-#checkBoxes label {
+#checkboxes label {
     display: inline;
+}
+
+#anotherDayContainer{
+    display: none;
 }
 
 @media only screen and (max-width: 600px) {
