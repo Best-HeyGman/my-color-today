@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// © 2025 Stephan Hegemann
+
 document.addEventListener('DOMContentLoaded', () => {
     const firstNameInput = document.getElementById('firstName');
     const birthdayInput = document.getElementById('birthday');

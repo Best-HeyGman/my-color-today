@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// © 2025 Stephan Hegemann
+
 // Define the name of the cache.
 const CACHE_NAME = 'my-pwa-cache-v1';
 
