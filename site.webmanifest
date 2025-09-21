@@ -1,6 +1,6 @@
 {
   "name": "My Color Today",
-  "short_name": "My Color Today",
+  "short_name": "MyColorToday",
   "description": "Discover your personal color for today and receive a reading✨",
   "orientation": "any",
   "dir": "ltr",
