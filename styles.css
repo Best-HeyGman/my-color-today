@@ -73,22 +73,6 @@ footer {
     padding-bottom: 1rem;
 }
 
-.donate-button {
-    display: inline-block;
-    background-color: #28a745;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
-    text-decoration: none;
-    margin: 1rem 0;
-    font-size: 1rem;
-    min-height: 48px;
-}
-
-.donate-button:hover {
-    background-color: #218838;
-}
-
 #checkboxes label {
     display: inline;
 }
