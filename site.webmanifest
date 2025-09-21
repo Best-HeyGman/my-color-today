@@ -1,12 +1,12 @@
 {
   "name": "My Color Today",
   "short_name": "My Color Today",
-  "start_url": "https://www.my-color.today/",
+  "start_url": "https://best-heygman.github.io/my-color-today/",
   "id": "today.my-color.www",
   "description": "Discover your personal color for today and receive a reading✨",
   "orientation": "any",
   "dir": "ltr",
-  "scope": "https://www.my-color.today/",
+  "scope": "https://best-heygman.github.io/my-color-today/",
   "lang": "en",
   "icons": [
     {
