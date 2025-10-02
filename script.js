@@ -33,17 +33,21 @@ document.addEventListener('DOMContentLoaded', () => {
     generateButton.addEventListener('click', async () => {
         const firstName = firstNameInput.value;
         const birthday = birthdayInput.value;
-        let today;
+        let todayISO;
         if (anotherDayCheckbox.checked) {
-            today = anotherDayInput.value;
+            todayISO = anotherDayInput.value;
         } else {
-            today = new Date().toISOString().substring(0, 10);
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const day = String(today.getDate()).padStart(2, '0');
+            todayISO = `${year}-${month}-${day}`; // in local timezone
         }
 
         localStorage.setItem('firstName', firstName);
         localStorage.setItem('birthday', birthday);
 
-        const hash = await generateHash(firstName, birthday, today);
+        const hash = await generateHash(firstName, birthday, todayISO);
         const colorCode = hash.substring(0, 6);
 
         document.body.style.backgroundColor = `#${colorCode}`;
